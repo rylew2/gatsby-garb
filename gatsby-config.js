@@ -1,18 +1,31 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
+    title: `Gatsby Garb`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    author: `@Rylew`,
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    createdAt: "2021",
   },
-  plugins: [
+  plugins: [ //in general - plugins allow us to bring data into gatsby build
+    //transformer plugins - get data and transform data (turns markdown into html)
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-provide-react`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
+        // allow gatsby to access images in the src/images folder
         name: `images`,
         path: `${__dirname}/src/images`,
+      },
+    },
+    `gatsby-transformer-remark`, //transformer plugin
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        // allow gatsby to access images in the src/images folder
+        name: `pages`,
+        path: `${__dirname}/src/pages`,
       },
     },
     `gatsby-transformer-sharp`,
