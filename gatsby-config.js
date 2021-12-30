@@ -1,3 +1,9 @@
+const dotenv = require("dotenv")
+
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config()
+}
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Garb`,
@@ -6,7 +12,8 @@ module.exports = {
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
     createdAt: "2021",
   },
-  plugins: [ //in general - plugins allow us to bring data into gatsby build
+  plugins: [
+    //in general - plugins allow us to bring data into gatsby build
     //transformer plugins - get data and transform data (turns markdown into html)
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-provide-react`,
@@ -47,5 +54,13 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+
+    {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: process.env.CONTENTFUL_SPACE_ID,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+      },
+    },
   ],
 }

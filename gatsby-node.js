@@ -3,6 +3,7 @@ const path = require("path")
 
 const PostTemplate = path.resolve("./src/templates/posts-template.js")
 const BlogTemplate = path.resolve("./src/templates/blog-template.js")
+const ProductTemplate = path.resolve("./src/templates/product-template.js")
 
 exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions
@@ -26,6 +27,16 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      allContentfulProduct {
+        edges {
+          node {
+            name
+            price
+            description
+            slug
+          }
+        }
+      }
     }
   `)
 
@@ -41,25 +52,36 @@ exports.createPages = async ({ actions, graphql }) => {
     })
   })
 
-  posts.forEach((_, index, postsArr) =>{
-      const totalPages = postsArr.length
-      const postsPerPage = 1
-      const currentPage = index + 1
-      const isFirstPage = index === 0
-      const isLastPage = currentPage === totalPages
+  posts.forEach((_, index, postsArr) => {
+    const totalPages = postsArr.length
+    const postsPerPage = 1
+    const currentPage = index + 1
+    const isFirstPage = index === 0
+    const isLastPage = currentPage === totalPages
 
-      createPage({
-          path: isFirstPage? '/blog' : `/blog/${currentPage}`,
-          component: BlogTemplate,
-          context: {
-              limit: postsPerPage,
-              skip: index * postsPerPage,
-              isFirstPage,
-              isLastPage,
-              currentPage,
-              totalPages
-          }
-      })
+    createPage({
+      path: isFirstPage ? "/blog" : `/blog/${currentPage}`,
+      component: BlogTemplate,
+      context: {
+        limit: postsPerPage,
+        skip: index * postsPerPage,
+        isFirstPage,
+        isLastPage,
+        currentPage,
+        totalPages,
+      },
+    })
+  })
+
+  const products = result.data.allContentfulProduct.edges
+  products.forEach(({ node: product }) => {
+    createPage({
+      path: `/products/${product.slug}`,
+      component: ProductTemplate,
+      context: {
+          slug: product.slug
+      }
+    })
   })
 }
 

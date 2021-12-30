@@ -58,11 +58,10 @@ export const query = graphql`
           fields {
             slug
           }
-          excerpt # preview content
+          excerpt(pruneLength: 20, truncate: true) # preview content
           frontmatter {
             title
-            # date(formatString: "ddd, MMM Do YYYY", locale: "us")
-            date(fromNow: true)
+            date(formatString: "ddd, MMM Do YYYY", locale: "us")
           }
           html
         }
