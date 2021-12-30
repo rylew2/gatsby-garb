@@ -3,6 +3,12 @@ import PropTypes from "prop-types"
 import * as React from "react"
 import gatsbyIcon from "../images/gatsby-icon.png"
 
+const isActive = ({ isCurrent }) => {
+  return { className: isCurrent ? "active" : "navlink" }
+}
+
+const NavLink = props => <Link getProps={isActive} {...props} />
+
 const Header = ({ siteTitle }) => (
   <header
     style={{
@@ -34,7 +40,7 @@ const Header = ({ siteTitle }) => (
       </span>
 
       <h1 style={{ margin: 0 }}>
-        <Link
+        <NavLink
           to="/"
           style={{
             color: `white`,
@@ -42,8 +48,10 @@ const Header = ({ siteTitle }) => (
           }}
         >
           {siteTitle}
-        </Link>
+        </NavLink>
       </h1>
+      <NavLink to="/blog"></NavLink>
+      <NavLink to="/products">Store</NavLink>
     </div>
   </header>
 )
